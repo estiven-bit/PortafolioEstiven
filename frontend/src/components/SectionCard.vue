@@ -1,5 +1,5 @@
 <template>
-  <div class="content-overlay">
+  <div class="content-overlay" :class="{ 'center-layout': activeSection === 'projects' }">
     <transition name="fade-slide" mode="out-in">
       <!-- SecciÃƒÂ³n HOME -->
       <div 
@@ -169,7 +169,7 @@
         <span class="eyebrow">CONTACTAR</span>
         <h2>&iquest;HABLAMOS?</h2>
         <p class="description contact-desc">
-          Si buscas incorporar a tu equipo a un desarrollador proactivo, con capacidad de adaptaci&oacute;n escribirme.
+          Si buscas incorporar a tu equipo a un desarrollador proactivo, con capacidad de adaptaci&oacute;n escribeme.
         </p>
         <div class="contact-action-container">
           <button @click="$emit('open-contact-modal')" class="btn btn-primary btn-email-cta">
@@ -271,6 +271,11 @@ const resetTilt = (e) => {
   justify-content: flex-start;
   padding-left: 8%;
   box-sizing: border-box;
+}
+
+.content-overlay.center-layout {
+  justify-content: center;
+  padding-left: 0;
 }
 
 .card {
@@ -639,6 +644,8 @@ h2 {
 
 .project-detail-card {
   min-height: 100%;
+  background: var(--color-detail-card-bg);
+  border: 1px solid var(--color-detail-card-border);
 }
 
 .project-detail-summary,
@@ -722,6 +729,12 @@ h2 {
   font-weight: 600;
 }
 
+.project-detail-card .detail-label {
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
 .project-detail-card h4 {
   font-size: 1.1rem;
   margin: 0 0 10px 0;
@@ -731,28 +744,45 @@ h2 {
 
 .project-detail-card p {
   margin-bottom: 16px;
+  color: var(--color-title);
+  opacity: 1;
+  line-height: 1.65;
+  font-size: 0.92rem;
 }
 
 .project-visit-link {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-title);
-  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0c0a10;
+  padding: 12px 20px;
   border-radius: 8px;
-  background: var(--color-glass-sub-bg);
-  border: 1px solid var(--color-glass-sub-border);
-  transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease, background-color 0.8s ease;
+  background: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .project-visit-link:hover {
   transform: translateY(-2px);
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-  background: var(--color-glass-sub-hover-bg);
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #0c0a10;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+}
+
+.theme-light .project-visit-link {
+  color: #ffffff;
+}
+
+.theme-light .project-visit-link:hover {
+  background: #0f0f12;
+  border-color: #0f0f12;
+  color: #ffffff;
 }
 
 .projects-fade-enter-active,
@@ -989,6 +1019,18 @@ h2 {
   .projects-grid {
     max-height: 240px;
   }
+
+  .project-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-detail-cta {
+    order: 1;
+  }
+
+  .project-detail-summary {
+    order: 2;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1008,10 +1050,6 @@ h2 {
   .projects-grid {
     max-height: 190px;
     gap: 12px;
-  }
-
-  .project-detail-grid {
-    grid-template-columns: 1fr;
   }
 
   .cta-container {
