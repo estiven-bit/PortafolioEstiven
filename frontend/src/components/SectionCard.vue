@@ -158,7 +158,7 @@
         <span class="eyebrow">CONTACTAR</span>
         <h2>&iquest;HABLAMOS?</h2>
         <p class="description contact-desc">
-          Si buscas incorporar a tu equipo a un desarrollador proactivo, con capacidad de adaptaci&oacute;n escribeme.
+          Si buscas incorporar a tu equipo a un desarrollador proactivo con capacidad de adaptaci&oacute;n o si quieres realizar alg&uacute;n proyecto conmigo, escr&iacute;beme.
         </p>
         <div class="contact-action-container">
           <button @click="$emit('open-contact-modal')" class="btn btn-primary btn-email-cta">

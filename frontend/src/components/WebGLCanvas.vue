@@ -93,11 +93,7 @@ const fragmentShader = /* glsl */`
     float a = 0.5;
     vec2 shift = vec2(100.0);
     mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
-    #ifdef MOBILE
     for (int i = 0; i < 3; ++i) {
-    #else
-    for (int i = 0; i < 4; ++i) {
-    #endif
       v += a * noise(p);
       p = rot * p * 2.0 + shift;
       a *= 0.5;
@@ -238,7 +234,7 @@ onMounted(() => {
     powerPreference: 'high-performance'
   });
   renderer.setSize(W, H);
-  renderer.setPixelRatio(isMobile.value ? Math.min(window.devicePixelRatio, 1.0) : Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(isMobile.value ? Math.min(window.devicePixelRatio, 1.0) : Math.min(window.devicePixelRatio, 1.35));
 
   clock = new THREE.Clock();
 
