@@ -32,7 +32,6 @@
         @mouseleave="resetTilt"
       >
         <span class="eyebrow">SOBRE M&Iacute;</span>
-        <h2>EL DESARROLLADOR</h2>
         <div class="about-grid">
           <div class="bio">
             <p>
@@ -77,7 +76,19 @@
         @mouseleave="resetTilt"
       >
         <span class="eyebrow">MIS PROYECTOS</span>
-        <h2>MIS TRABAJOS</h2>
+        <button
+          v-if="showProjectDetail"
+          type="button"
+          class="project-back-btn-top"
+          @click="showProjectDetail = false"
+          aria-label="Volver a proyectos"
+          title="Volver a proyectos"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="back-icon-top">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Volver
+        </button>
         <p v-if="!showProjectDetail" class="projects-intro">Una peque&ntilde;a muestra de los desarrollos interactivos y plataformas web que he construido.</p>
         
         <transition name="projects-fade" mode="out-in">
@@ -112,20 +123,8 @@
             <template v-else>
               <div class="project-detail-grid">
                 <div class="project-detail-card glassmorphic-sub project-detail-summary">
-                  <button
-                    type="button"
-                    class="project-back-btn"
-                    @click="showProjectDetail = false"
-                    aria-label="Volver a proyectos"
-                    title="Volver a proyectos"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="back-icon">
-                      <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                  </button>
                   <span class="detail-label">Resumen</span>
                   <h4>{{ selectedProject.title }}</h4>
-                  <p>{{ selectedProject.shortDescription }}</p>
                   
                   <button @click="showDetailModal = true" class="btn-ver-mas">
                     Ver más
@@ -134,7 +133,6 @@
 
                 <div class="project-detail-card glassmorphic-sub project-detail-cta">
                   <span class="detail-label">Acceso directo</span>
-                  <p>Abre la versión publicada del proyecto seleccionado.</p>
                   <a :href="selectedProject.url" target="_blank" rel="noopener noreferrer" class="project-visit-link">
                     Visitar sitio
                     <svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -296,7 +294,7 @@ const resetTilt = (e) => {
   pointer-events: auto; /* Reactivar clics dentro de la tarjeta */
   max-width: 780px;
   width: 95%;
-  max-height: calc(100vh - 220px); /* Evita desbordar la pantalla entre nav y footer */
+  max-height: calc(100vh - 150px); /* Evita desbordar la pantalla entre nav y footer */
   overflow-y: auto;
   padding: 40px;
   border-radius: 20px;
@@ -669,8 +667,39 @@ h2 {
 
 .project-detail-summary {
   position: relative;
-  padding-top: 64px;
-  min-height: 380px;
+  padding-top: 24px;
+  min-height: 200px;
+}
+
+.project-back-btn-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--color-glass-sub-border);
+  background: var(--color-glass-sub-bg);
+  color: var(--color-title);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.8s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 20px;
+  align-self: flex-start;
+}
+
+.project-back-btn-top:hover {
+  transform: translateX(-2px);
+  background: var(--color-glass-sub-hover-bg);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.back-icon-top {
+  width: 14px;
+  height: 14px;
 }
 
 .project-back-btn {
@@ -1018,7 +1047,7 @@ h2 {
   .card {
     max-width: 90%;
     padding: 30px 25px;
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 140px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   }
   
@@ -1050,7 +1079,7 @@ h2 {
   .card {
     max-width: 95%;
     padding: 24px 18px;
-    max-height: calc(100vh - 170px); /* MÃƒÂ¡s compacto para dejar espacio al nav y footer compactos */
+    max-height: calc(100vh - 130px); /* MÃƒÂ¡s compacto para dejar espacio al nav y footer compactos */
   }
   
   h1 {
