@@ -462,24 +462,6 @@ watch(() => props.isDarkMode, (newVal) => {
   overflow: hidden;
 }
 
-/* Mobile-optimized background: zero GPU/CPU cost, buttery-smooth CSS transition */
-.webgl-container.is-mobile {
-  background: radial-gradient(circle at 80% 20%, #1c113e 0%, #050507 80%);
-}
-
-.webgl-container.is-mobile::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 80% 20%, #e3dcff 0%, #bcc1cd 85%);
-  opacity: 0;
-  transition: opacity 1.0s ease-in-out;
-  z-index: 1;
-}
-
-:global(.theme-light) .webgl-container.is-mobile::before {
-  opacity: 1;
-}
 
 canvas {
   display: block;

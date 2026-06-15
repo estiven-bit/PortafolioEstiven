@@ -270,7 +270,7 @@ const handleMobileNavigate = (key) => {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
 }
 
-:global(.theme-light) .mobile-menu-overlay {
+.theme-light .mobile-menu-overlay {
   background: rgba(255, 255, 255, 0.95) !important;
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);

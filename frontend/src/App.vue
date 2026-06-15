@@ -227,7 +227,7 @@ const resetContactForm = () => {
   --color-glass-sub-border: rgba(255, 255, 255, 0.05);
   --color-glass-sub-hover-bg: rgba(255, 255, 255, 0.04);
   --color-glass-sub-hover-border: rgba(255, 255, 255, 0.12);
-  --color-detail-card-bg: rgba(18, 14, 28, 0.75);
+  --color-detail-card-bg: rgba(15, 11, 24, 0.94);
   --color-detail-card-border: rgba(255, 255, 255, 0.12);
   --color-title: #ffffff;
   --color-eyebrow: #e5c3b2;
@@ -267,7 +267,7 @@ const resetContactForm = () => {
   --color-glass-sub-border: rgba(0, 0, 0, 0.05);
   --color-glass-sub-hover-bg: rgba(0, 0, 0, 0.04);
   --color-glass-sub-hover-border: rgba(0, 0, 0, 0.12);
-  --color-detail-card-bg: rgba(255, 255, 255, 0.85);
+  --color-detail-card-bg: rgba(255, 255, 255, 0.97);
   --color-detail-card-border: rgba(0, 0, 0, 0.1);
   --color-title: #0f0f12;
   --color-eyebrow: #5a3aa3;
