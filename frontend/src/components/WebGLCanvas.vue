@@ -94,7 +94,7 @@ const fragmentShader = /* glsl */`
     vec2 shift = vec2(100.0);
     mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
     #ifdef MOBILE
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < 3; ++i) {
     #else
     for (int i = 0; i < 4; ++i) {
     #endif
@@ -111,8 +111,10 @@ const fragmentShader = /* glsl */`
     q.y = fbm(p + vec2(5.2, 1.3) + time * 0.018); // Movimiento ultra lento base
 
     #ifdef MOBILE
-    r = q;
-    return fbm(p + 2.0 * q);
+    r.x = fbm(p + 2.0 * q + vec2(1.7, 9.2) + time * 0.010);
+    r.y = fbm(p + 2.0 * q + vec2(8.3, 2.8) + time * 0.012);
+
+    return fbm(p + 2.0 * r);
     #else
     r.x = fbm(p + 3.0 * q + vec2(1.7, 9.2) + time * 0.010);
     r.y = fbm(p + 3.0 * q + vec2(8.3, 2.8) + time * 0.012);

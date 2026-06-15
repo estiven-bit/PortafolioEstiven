@@ -654,7 +654,7 @@ h2 {
 }
 
 .project-detail-card {
-  min-height: 100%;
+  min-height: auto;
   background: var(--color-detail-card-bg);
   border: 1px solid var(--color-detail-card-border);
 }
@@ -668,7 +668,7 @@ h2 {
 .project-detail-summary {
   position: relative;
   padding-top: 24px;
-  min-height: 200px;
+  min-height: auto;
 }
 
 .project-back-btn-top {
@@ -1040,14 +1040,15 @@ h2 {
   .content-overlay {
     padding-left: 0;
     justify-content: center;
-    align-items: center; /* Centrar verticalmente */
-    padding-bottom: 0;
+    align-items: flex-start; /* Evita solapamiento con el header */
+    padding-top: 100px;
+    padding-bottom: 80px;
   }
   
   .card {
     max-width: 90%;
     padding: 30px 25px;
-    max-height: calc(100vh - 140px);
+    max-height: calc(100vh - 180px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
   }
   
@@ -1059,7 +1060,7 @@ h2 {
   }
   
   .projects-grid {
-    max-height: 240px;
+    max-height: calc(100vh - 300px);
   }
 
   .project-detail-grid {
@@ -1079,7 +1080,7 @@ h2 {
   .card {
     max-width: 95%;
     padding: 24px 18px;
-    max-height: calc(100vh - 130px); /* MÃƒÂ¡s compacto para dejar espacio al nav y footer compactos */
+    max-height: calc(100vh - 180px); /* Ajustado para caber perfectamente entre nav y footer */
   }
   
   h1 {
@@ -1090,7 +1091,7 @@ h2 {
   }
   
   .projects-grid {
-    max-height: 190px;
+    max-height: calc(100vh - 280px);
     gap: 12px;
   }
 
