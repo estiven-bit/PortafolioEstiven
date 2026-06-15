@@ -263,6 +263,17 @@ const handleMobileNavigate = (key) => {
   padding: 30px;
   border-radius: 12px;
   z-index: 9;
+  background: rgba(10, 10, 12, 0.92) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+}
+
+:global(.theme-light) .mobile-menu-overlay {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
 }
 
 .mobile-links {
@@ -280,9 +291,15 @@ const handleMobileNavigate = (key) => {
   align-items: center;
   gap: 12px;
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-title);
+  border-bottom: 1px solid var(--color-glass-sub-border);
+  transition: color 0.3s ease, border-color 0.8s ease;
 }
 
+.mobile-links li:hover,
+.mobile-links li.active {
+  color: var(--color-accent);
+}
 
 .mobile-label {
   font-size: 1.1rem;

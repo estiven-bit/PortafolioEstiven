@@ -76,7 +76,8 @@
         @mousemove="handleTilt"
         @mouseleave="resetTilt"
       >
-        <h2 class="project-title">MIS PROYECTOS</h2>
+        <span class="eyebrow">MIS PROYECTOS</span>
+        <h2>MIS TRABAJOS</h2>
         <p v-if="!showProjectDetail" class="projects-intro">Una peque&ntilde;a muestra de los desarrollos interactivos y plataformas web que he construido.</p>
         
         <transition name="projects-fade" mode="out-in">
@@ -129,19 +130,6 @@
                   <button @click="showDetailModal = true" class="btn-ver-mas">
                     Ver más
                   </button>
-
-                  <div class="project-switcher">
-                    <button
-                      v-for="project in projects"
-                      :key="project.key"
-                      type="button"
-                      class="project-switch-btn"
-                      :class="{ active: selectedProject.key === project.key }"
-                      @click="selectProject(project)"
-                    >
-                      {{ project.title }}
-                    </button>
-                  </div>
                 </div>
 
                 <div class="project-detail-card glassmorphic-sub project-detail-cta">
@@ -202,12 +190,6 @@
           
           <div class="detail-modal-content">
             <p class="long-desc">{{ selectedProject.longDescription }}</p>
-            <div class="tech-stack-container">
-              <span class="tech-stack-title">Tecnologías usadas:</span>
-              <div class="project-tech">
-                <span v-for="tech in selectedProject.tech" :key="tech">{{ tech }}</span>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1153,6 +1135,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto; /* Reactivar eventos táctiles y de ratón en el modal */
 }
 
 .detail-modal-card {
@@ -1212,21 +1195,7 @@ h2 {
   font-size: 1.05rem;
   line-height: 1.8;
   color: var(--color-title);
-  margin-bottom: 30px;
-}
-
-.tech-stack-container {
-  border-top: 1px solid var(--color-glass-sub-hover-border);
-  padding-top: 20px;
-}
-
-.tech-stack-title {
-  display: block;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text);
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 </style>
 
