@@ -153,7 +153,7 @@ const handleNavigation = (sectionKey) => {
   activeSection.value = sectionKey;
   setTimeout(() => {
     isTransitioning.value = false;
-  }, 800); // 800ms coincide con la transición CSS de las tarjetas
+  }, 350); // 350ms para una transición rápida y fluida
 };
 
 const toggleTheme = () => {
@@ -323,25 +323,19 @@ body, html {
 /* Efectos de transición en UI */
 .app-wrapper.is-transitioning .card {
   pointer-events: none;
-  opacity: 0.3;
-  filter: blur(4px);
-  transform: translateX(20px) scale(0.98);
-  transition: opacity 0.8s ease, filter 0.8s ease, transform 0.8s ease;
 }
 
 .app-wrapper.is-transitioning .nav-bar {
   pointer-events: none;
-  opacity: 0.5;
-  transition: opacity 0.8s ease;
 }
 
 /* Transición por defecto suave para retorno */
 .card {
-  transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s ease, filter 0.8s ease;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .nav-bar {
-  transition: opacity 0.8s ease;
+  transition: opacity 0.3s ease;
 }
 
 /* Indicador de pie de página */

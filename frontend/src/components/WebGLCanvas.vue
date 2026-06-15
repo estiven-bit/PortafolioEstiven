@@ -1,5 +1,5 @@
 <template>
-  <div ref="canvasContainer" class="webgl-container">
+  <div ref="canvasContainer" class="webgl-container" :class="{ 'is-mobile': isMobile }">
     <canvas ref="webglCanvas"></canvas>
   </div>
 </template>
@@ -15,6 +15,7 @@ const props = defineProps({
 
 const canvasContainer = ref(null);
 const webglCanvas     = ref(null);
+const isMobile        = ref(false);
 
 let scene, camera, renderer, clock, animationFrameId;
 let planeMesh, shaderMaterial;
@@ -92,7 +93,11 @@ const fragmentShader = /* glsl */`
     float a = 0.5;
     vec2 shift = vec2(100.0);
     mat2 rot = mat2(cos(0.5), sin(0.5), -sin(0.5), cos(0.5));
+    #ifdef MOBILE
+    for (int i = 0; i < 2; ++i) {
+    #else
     for (int i = 0; i < 4; ++i) {
+    #endif
       v += a * noise(p);
       p = rot * p * 2.0 + shift;
       a *= 0.5;
@@ -105,10 +110,15 @@ const fragmentShader = /* glsl */`
     q.x = fbm(p + vec2(0.0, 0.0));
     q.y = fbm(p + vec2(5.2, 1.3) + time * 0.018); // Movimiento ultra lento base
 
+    #ifdef MOBILE
+    r = q;
+    return fbm(p + 2.0 * q);
+    #else
     r.x = fbm(p + 3.0 * q + vec2(1.7, 9.2) + time * 0.010);
     r.y = fbm(p + 3.0 * q + vec2(8.3, 2.8) + time * 0.012);
 
     return fbm(p + 3.0 * r);
+    #endif
   }
 
   float getLiquidHeight(vec2 uv, float time) {
@@ -211,6 +221,8 @@ const fragmentShader = /* glsl */`
 
 // ── onMounted ─────────────────────────────────────────────────────────────────
 onMounted(() => {
+  isMobile.value = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+
   const W = canvasContainer.value.clientWidth;
   const H = canvasContainer.value.clientHeight;
 
@@ -224,7 +236,7 @@ onMounted(() => {
     powerPreference: 'high-performance'
   });
   renderer.setSize(W, H);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(isMobile.value ? Math.min(window.devicePixelRatio, 1.0) : Math.min(window.devicePixelRatio, 2));
 
   clock = new THREE.Clock();
 
@@ -242,7 +254,7 @@ onMounted(() => {
 
   shaderMaterial = new THREE.ShaderMaterial({
     vertexShader,
-    fragmentShader,
+    fragmentShader: (isMobile.value ? '#define MOBILE\n' : '') + fragmentShader,
     uniforms: {
       uTime:            { value: 0.0 },
       uMouse:           { value: new THREE.Vector2(0, 0) },
@@ -269,13 +281,11 @@ onMounted(() => {
     const uvX = e.clientX / window.innerWidth;
     const uvY = 1.0 - (e.clientY / window.innerHeight);
 
-    // Throttling: solo crear ondas si el ratón se desplaza suficiente distancia
     const dx = uvX - lastSplashX;
     const dy = uvY - lastSplashY;
     const dist = Math.sqrt(dx * dx + dy * dy);
 
     if (dist > 0.07) {
-      // Spawnear onda sutil de movimiento (reducida intensidad de 0.45 a 0.28)
       spawnSplash(uvX, uvY, 0.28, 0.22, 0.38);
       lastSplashX = uvX;
       lastSplashY = uvY;
@@ -286,10 +296,39 @@ onMounted(() => {
     const uvX = e.clientX / window.innerWidth;
     const uvY = 1.0 - (e.clientY / window.innerHeight);
     
-    // Spawnear onda de clic (reducida intensidad de 1.1 a 0.65)
     spawnSplash(uvX, uvY, 0.65, 0.25, 0.28);
     lastSplashX = uvX;
     lastSplashY = uvY;
+  };
+
+  const onTouchMove = (e) => {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const uvX = touch.clientX / window.innerWidth;
+      const uvY = 1.0 - (touch.clientY / window.innerHeight);
+      
+      const dx = uvX - lastSplashX;
+      const dy = uvY - lastSplashY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist > 0.07) {
+        spawnSplash(uvX, uvY, 0.28, 0.22, 0.38);
+        lastSplashX = uvX;
+        lastSplashY = uvY;
+      }
+    }
+  };
+
+  const onTouchStart = (e) => {
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const uvX = touch.clientX / window.innerWidth;
+      const uvY = 1.0 - (touch.clientY / window.innerHeight);
+      
+      spawnSplash(uvX, uvY, 0.65, 0.25, 0.28);
+      lastSplashX = uvX;
+      lastSplashY = uvY;
+    }
   };
 
   const onResize = () => {
@@ -304,6 +343,8 @@ onMounted(() => {
 
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('mousedown', onMouseDown);
+  window.addEventListener('touchmove', onTouchMove, { passive: true });
+  window.addEventListener('touchstart', onTouchStart, { passive: true });
   window.addEventListener('resize',    onResize);
 
   // ── Bucle de animación ────────────────────────────────────────────────────
@@ -355,6 +396,8 @@ onMounted(() => {
   onUnmounted(() => {
     window.removeEventListener('mousemove', onMouseMove);
     window.removeEventListener('mousedown', onMouseDown);
+    window.removeEventListener('touchmove', onTouchMove);
+    window.removeEventListener('touchstart', onTouchStart);
     window.removeEventListener('resize',    onResize);
     cancelAnimationFrame(animationFrameId);
     geometry.dispose();
@@ -416,6 +459,26 @@ watch(() => props.isDarkMode, (newVal) => {
   background-color: #050507;
   overflow: hidden;
 }
+
+/* Mobile-optimized background: zero GPU/CPU cost, buttery-smooth CSS transition */
+.webgl-container.is-mobile {
+  background: radial-gradient(circle at 80% 20%, #1c113e 0%, #050507 80%);
+}
+
+.webgl-container.is-mobile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 20%, #e3dcff 0%, #bcc1cd 85%);
+  opacity: 0;
+  transition: opacity 1.0s ease-in-out;
+  z-index: 1;
+}
+
+:global(.theme-light) .webgl-container.is-mobile::before {
+  opacity: 1;
+}
+
 canvas {
   display: block;
   width: 100%;

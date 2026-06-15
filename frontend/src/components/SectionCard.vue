@@ -76,9 +76,8 @@
         @mousemove="handleTilt"
         @mouseleave="resetTilt"
       >
-        <span class="eyebrow">PORTAFOLIO</span>
-        <h2>MIS PROYECTOS</h2>
-        <p class="projects-intro">Una peque&ntilde;a muestra de los desarrollos interactivos y plataformas web que he construido.</p>
+        <h2 class="project-title">MIS PROYECTOS</h2>
+        <p v-if="!showProjectDetail" class="projects-intro">Una peque&ntilde;a muestra de los desarrollos interactivos y plataformas web que he construido.</p>
         
         <transition name="projects-fade" mode="out-in">
           <div class="projects-grid" :key="showProjectDetail ? 'detail' : 'list'">
@@ -125,7 +124,12 @@
                   </button>
                   <span class="detail-label">Resumen</span>
                   <h4>{{ selectedProject.title }}</h4>
-                  <p>{{ selectedProject.longDescription }}</p>
+                  <p>{{ selectedProject.shortDescription }}</p>
+                  
+                  <button @click="showDetailModal = true" class="btn-ver-mas">
+                    Ver más
+                  </button>
+
                   <div class="project-switcher">
                     <button
                       v-for="project in projects"
@@ -142,7 +146,6 @@
 
                 <div class="project-detail-card glassmorphic-sub project-detail-cta">
                   <span class="detail-label">Acceso directo</span>
-                  <h4>Ir a la web</h4>
                   <p>Abre la versión publicada del proyecto seleccionado.</p>
                   <a :href="selectedProject.url" target="_blank" rel="noopener noreferrer" class="project-visit-link">
                     Visitar sitio
@@ -179,6 +182,33 @@
             </svg>
             Enviar un email
           </button>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Modal de Pantalla Completa para Detalle del Proyecto -->
+    <transition name="fade-scale">
+      <div v-if="showDetailModal" class="detail-modal-overlay" @click.self="showDetailModal = false">
+        <div class="detail-modal-card glassmorphic">
+          <button class="detail-modal-close-btn" @click="showDetailModal = false" title="Cerrar">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="close-icon">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          
+          <span class="detail-modal-label">{{ selectedProject.status }}</span>
+          <h3>{{ selectedProject.title }}</h3>
+          
+          <div class="detail-modal-content">
+            <p class="long-desc">{{ selectedProject.longDescription }}</p>
+            <div class="tech-stack-container">
+              <span class="tech-stack-title">Tecnologías usadas:</span>
+              <div class="project-tech">
+                <span v-for="tech in selectedProject.tech" :key="tech">{{ tech }}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </transition>
@@ -222,6 +252,7 @@ const projects = [
 
 const selectedProject = ref(projects[0]);
 const showProjectDetail = ref(false);
+const showDetailModal = ref(false);
 
 const selectProject = (project) => {
   selectedProject.value = project;
@@ -930,17 +961,17 @@ h2 {
 /* Transiciones de Entrada/Salida */
 .fade-slide-enter-active,
 .fade-slide-leave-active {
-  transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .fade-slide-enter-from {
   opacity: 0;
-  transform: translateX(-30px);
+  transform: translateX(-20px);
 }
 
 .fade-slide-leave-to {
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(20px);
 }
 
 /* Animaciones escalonadas para elementos internos de la tarjeta */
@@ -954,7 +985,7 @@ h2 {
 .fade-slide-enter-active .about-grid,
 .fade-slide-enter-active .contact-form,
 .fade-slide-enter-active .cta-container {
-  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.6s ease;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
 }
 
 .fade-slide-enter-from .eyebrow,
@@ -968,29 +999,29 @@ h2 {
 .fade-slide-enter-from .contact-form,
 .fade-slide-enter-from .cta-container {
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(10px);
 }
 
-/* Tiempos de retraso escalonados */
+/* Tiempos de retraso escalonados ultra rápidos */
 .fade-slide-enter-active .eyebrow {
-  transition-delay: 0.1s;
+  transition-delay: 0.04s;
 }
 .fade-slide-enter-active h1,
 .fade-slide-enter-active h2 {
-  transition-delay: 0.18s;
+  transition-delay: 0.08s;
 }
 .fade-slide-enter-active .subtitle,
 .fade-slide-enter-active .description,
 .fade-slide-enter-active .projects-intro {
-  transition-delay: 0.26s;
+  transition-delay: 0.12s;
 }
 .fade-slide-enter-active .projects-grid,
 .fade-slide-enter-active .about-grid,
 .fade-slide-enter-active .contact-form {
-  transition-delay: 0.34s;
+  transition-delay: 0.16s;
 }
 .fade-slide-enter-active .cta-container {
-  transition-delay: 0.42s;
+  transition-delay: 0.2s;
 }
 
 /* Responsividad */
@@ -1071,6 +1102,131 @@ h2 {
     font-size: 0.88rem;
     line-height: 1.6;
   }
+}
+
+/* Nuevos Estilos del Portafolio */
+.project-title {
+  color: var(--color-accent) !important;
+  margin-bottom: 25px;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.8rem, 6vw, 2.2rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-ver-mas {
+  align-self: flex-start;
+  margin-bottom: 24px;
+  padding: 10px 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--color-glass-sub-bg);
+  border: 1px solid var(--color-glass-sub-border);
+  color: var(--color-title);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-ver-mas:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #0c0a10;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(229, 195, 178, 0.25);
+}
+
+.theme-light .btn-ver-mas:hover {
+  color: #ffffff;
+}
+
+/* Modal de Detalle de Proyecto en Pantalla Completa */
+.detail-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--modal-overlay-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-modal-card {
+  max-width: 650px;
+  width: 90%;
+  padding: 40px;
+  border-radius: 20px;
+  position: relative;
+  max-height: 85vh;
+  overflow-y: auto;
+  color: var(--color-text);
+  background: var(--color-detail-card-bg);
+  border: 1px solid var(--color-detail-card-border);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+
+.detail-modal-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: transparent;
+  border: none;
+  color: var(--color-title);
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.detail-modal-close-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  color: var(--color-accent);
+}
+
+.detail-modal-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.detail-modal-card h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.2rem;
+  margin: 0 0 24px 0;
+  color: var(--color-title);
+}
+
+.detail-modal-content .long-desc {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-title);
+  margin-bottom: 30px;
+}
+
+.tech-stack-container {
+  border-top: 1px solid var(--color-glass-sub-hover-border);
+  padding-top: 20px;
+}
+
+.tech-stack-title {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text);
+  margin-bottom: 10px;
 }
 </style>
 
