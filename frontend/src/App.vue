@@ -185,7 +185,12 @@ const handleContactSubmit = async () => {
       body: JSON.stringify(contactForm)
     });
 
-    const result = await response.json();
+    let result;
+    try {
+      result = await response.json();
+    } catch (e) {
+      throw new Error('La respuesta del servidor no es un JSON válido.');
+    }
 
     if (response.ok && result.success) {
       formSubmitted.value = true;
@@ -200,7 +205,12 @@ const handleContactSubmit = async () => {
     }
   } catch (error) {
     console.error('Error al enviar formulario:', error);
-    formError.value = 'No se pudo conectar con el servidor backend PHP. Verifica que XAMPP (Apache) esté encendido.';
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocal) {
+      formError.value = 'No se pudo conectar con el servidor backend PHP. Verifica que XAMPP (Apache) esté encendido.';
+    } else {
+      formError.value = 'No se pudo conectar con el servidor de correos. Por favor, inténtalo de nuevo más tarde o envíame un correo directamente a davila_v_23@hotmail.com.';
+    }
   } finally {
     formSubmitting.value = false;
   }
