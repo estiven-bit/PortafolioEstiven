@@ -566,6 +566,26 @@ body, html {
   cursor: not-allowed;
 }
 
+.btn-secondary {
+  background: var(--modal-field-bg);
+  color: var(--modal-field-text);
+  border: 1px solid var(--modal-field-border);
+  font-weight: 600;
+  margin-top: 15px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-secondary:hover {
+  background: var(--modal-field-focus-bg);
+  border-color: var(--modal-field-focus-border);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
 .form-message {
   font-size: 0.8rem;
   padding: 6px;

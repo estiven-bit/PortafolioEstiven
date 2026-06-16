@@ -187,7 +187,7 @@
           <h3>{{ selectedProject.title }}</h3>
           
           <div class="detail-modal-content">
-            <p class="long-desc">{{ selectedProject.longDescription }}</p>
+            <div class="long-desc" v-html="selectedProject.longDescription"></div>
           </div>
         </div>
       </div>
@@ -210,11 +210,11 @@ defineEmits(['navigate', 'open-contact-modal']);
 const projects = [
   {
     key: 'libreria-gabi',
-        title: 'Librer\u00eda Gabi',
+    title: 'Librer\u00eda Gabi',
     status: 'EN DESARROLLO',
     statusClass: 'active',
-        shortDescription: 'Tienda online para gesti\u00f3n de libros, carrito, pasarela de pago y autenticaci\u00f3n segura.',
-        longDescription: 'Plataforma e-commerce completa para gesti\u00f3n de libros, carrito de compras, pasarela de pago, autenticaci\u00f3n OAuth2 y panel de administraci\u00f3n.',
+    shortDescription: 'Tienda online para gesti\u00f3n de libros, carrito, pasarela de pago y autenticaci\u00f3n segura.',
+    longDescription: 'Plataforma e-commerce completa para gesti\u00f3n de libros, carrito de compras, pasarela de pago, autenticaci\u00f3n OAuth2 y panel de administraci\u00f3n.',
     tech: ['Vue 3', 'PHP', 'MySQL', 'OAuth2'],
     url: 'https://libreria-taupe.vercel.app/'
   },
@@ -223,8 +223,17 @@ const projects = [
     title: 'Inmobiliaria Reglado',
     status: 'EN VIVO',
     statusClass: 'live',
-        shortDescription: 'Aplicaci\u00f3n para publicar y gestionar inmuebles con una interfaz clara y orientada al usuario.',
-        longDescription: 'Aplicaci\u00f3n web interactiva desarrollada para la gesti\u00f3n y publicaci\u00f3n de inmuebles durante mi periodo de pr\u00e1cticas profesionales.',
+    shortDescription: 'Plataforma SaaS inmobiliaria premium para inversión institucional con matching inteligente, firmas digitales y automatización por IA.',
+    longDescription: `<p><strong>Reglado Real Estate</strong> es una plataforma SaaS premium para la captación, comercialización y gestión de activos inmobiliarios singulares (hoteles, edificios, fincas, parkings) dirigida a inversores institucionales y family offices.</p>
+<h4 style="margin: 20px 0 10px 0; color: var(--color-accent); font-size: 1.15rem; font-family: 'Outfit', sans-serif;">Características Técnicas y Funcionales:</h4>
+<ul style="padding-left: 20px; margin-bottom: 20px; line-height: 1.75; font-size: 0.95rem;">
+  <li style="margin-bottom: 8px;"><strong>Privacidad por Diseño (HMAC):</strong> Ocultación de coordenadas exactas en mapas públicos mediante desplazamiento determinista calculado con HMAC-SHA256, revelándose solo tras la firma del NDA/LOI.</li>
+  <li style="margin-bottom: 8px;"><strong>Procesamiento Inteligente (Claude IA):</strong> Ingesta automatizada de propiedades a partir de correos de texto libre con extracción estructurada de datos a JSON y detección de duplicados (SHA-256).</li>
+  <li style="margin-bottom: 8px;"><strong>Algoritmo de Matching Schema-Driven:</strong> Cuestionarios dinámicos adaptados a cada tipo de activo que calculan en tiempo real el porcentaje de afinidad con el inversor.</li>
+  <li style="margin-bottom: 8px;"><strong>Flujo Legal y Documental:</strong> Generación automatizada (Dompdf) y validación de firma digital de NDA y LOI, con sistema de aprobación para administradores mediante tokens magic-link de un solo uso.</li>
+  <li style="margin-bottom: 8px;"><strong>Pipeline de Operación (Kanban y Chat):</strong> Espacio de negociación post-LOI con chat integrado, tablero Kanban de estados y bitácora de auditoría forense inmutable (audit log).</li>
+  <li style="margin-bottom: 8px;"><strong>Arquitectura Desacoplada y BFF:</strong> SPA en Vue 3 y API REST en PHP 8 con autenticación OIDC delegada en BFF (ApiLogin), lo que permite gestionar sesiones multi-cuenta en el mismo navegador.</li>
+</ul>`,
     tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP'],
     url: 'https://regladorealestate.com/'
   }
