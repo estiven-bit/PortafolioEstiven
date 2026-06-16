@@ -38,7 +38,7 @@
               Tengo 30 a&ntilde;os y he dado un giro completo a mi trayectoria profesional, transitando del sector de la hosteler&iacute;a, donde desarroll&eacute; una gran capacidad de trabajo en equipo y resoluci&oacute;n de problemas bajo presi&oacute;n, al mundo del desarrollo de software, aportando esa misma disciplina al c&oacute;digo.
             </p>
             <p>
-              Actualmente estoy finalizando el Grado Superior en Desarrollo de Aplicaciones Web (DAW). Me apasiona la l&oacute;gica del desarrollo backend, la gesti&oacute;n eficiente del c&oacute;digo y la integraci&oacute;n de soluciones interactivas premium.
+              Actualmente estoy finalizando el Grado Superior en Desarrollo de Aplicaciones Web (DAW). Me apasiona la l&oacute;gica del desarrollo backend, la gesti&oacute;n eficiente del c&oacute;digo y la integraci&oacute;n de soluciones interactivas.
             </p>
           </div>
           <div class="skills">
@@ -224,15 +224,15 @@ const projects = [
     status: 'EN VIVO',
     statusClass: 'live',
     shortDescription: 'Plataforma SaaS inmobiliaria premium para inversión institucional con matching inteligente, firmas digitales y automatización por IA.',
-    longDescription: `<p><strong>Reglado Real Estate</strong> es una plataforma SaaS premium para la captación, comercialización y gestión de activos inmobiliarios singulares (hoteles, edificios, fincas, parkings) dirigida a inversores institucionales y family offices.</p>
-<h4 style="margin: 20px 0 10px 0; color: var(--color-accent); font-size: 1.15rem; font-family: 'Outfit', sans-serif;">Características Técnicas y Funcionales:</h4>
+    longDescription: `<p><strong>Reglado Real Estate</strong> es una plataforma inmobiliaria premium diseñada para inversores, family offices y fondos de inversión, orientada a la gestión y comercialización de activos de gran volumen (edificios, fincas, hoteles y parkings).</p>
+<h4 style="margin: 20px 0 10px 0; color: var(--color-accent); font-size: 1.15rem; font-family: 'Outfit', sans-serif;">Características principales:</h4>
 <ul style="padding-left: 20px; margin-bottom: 20px; line-height: 1.75; font-size: 0.95rem;">
-  <li style="margin-bottom: 8px;"><strong>Privacidad por Diseño (HMAC):</strong> Ocultación de coordenadas exactas en mapas públicos mediante desplazamiento determinista calculado con HMAC-SHA256, revelándose solo tras la firma del NDA/LOI.</li>
-  <li style="margin-bottom: 8px;"><strong>Procesamiento Inteligente (Claude IA):</strong> Ingesta automatizada de propiedades a partir de correos de texto libre con extracción estructurada de datos a JSON y detección de duplicados (SHA-256).</li>
-  <li style="margin-bottom: 8px;"><strong>Algoritmo de Matching Schema-Driven:</strong> Cuestionarios dinámicos adaptados a cada tipo de activo que calculan en tiempo real el porcentaje de afinidad con el inversor.</li>
-  <li style="margin-bottom: 8px;"><strong>Flujo Legal y Documental:</strong> Generación automatizada (Dompdf) y validación de firma digital de NDA y LOI, con sistema de aprobación para administradores mediante tokens magic-link de un solo uso.</li>
-  <li style="margin-bottom: 8px;"><strong>Pipeline de Operación (Kanban y Chat):</strong> Espacio de negociación post-LOI con chat integrado, tablero Kanban de estados y bitácora de auditoría forense inmutable (audit log).</li>
-  <li style="margin-bottom: 8px;"><strong>Arquitectura Desacoplada y BFF:</strong> SPA en Vue 3 y API REST en PHP 8 con autenticación OIDC delegada en BFF (ApiLogin), lo que permite gestionar sesiones multi-cuenta en el mismo navegador.</li>
+  <li style="margin-bottom: 8px;"><strong>Ubicación Confidencial:</strong> Protege la localización exacta de los inmuebles en mapas públicos mediante coordenadas aproximadas, desvelando la dirección real del activo únicamente tras firmar los acuerdos de confidencialidad (NDA/LOI).</li>
+  <li style="margin-bottom: 8px;"><strong>Registro Inteligente desde Email:</strong> Permite a los agentes enviar información en texto libre por correo electrónico. El sistema procesa y extrae automáticamente los datos clave (precio, superficie, tipo de activo) para dar de alta el inmueble sin intervención manual y validar que no esté duplicado.</li>
+  <li style="margin-bottom: 8px;"><strong>Cuestionario de Preferencias (Matching):</strong> Evalúa de forma inteligente las preferencias de compra del inversor mediante cuestionarios personalizados, calculando en tiempo real su porcentaje de afinidad con los activos disponibles.</li>
+  <li style="margin-bottom: 8px;"><strong>Generación y Firma Digital:</strong> Automatiza la creación en PDF y la gestión de firmas digitales de acuerdos legales (NDA y cartas de intención LOI) con accesos de revisión seguros y temporales para el equipo.</li>
+  <li style="margin-bottom: 8px;"><strong>Seguimiento de Operaciones (Chat y Kanban):</strong> Ofrece un espacio privado de negociación con chat integrado, registro automático de eventos importantes (descargas, visitas, ofertas) y un tablero visual tipo Kanban para ver el avance de cada transacción de manera ágil.</li>
+  <li style="margin-bottom: 8px;"><strong>Acceso Multi-cuenta Seguro:</strong> Permite iniciar sesión y alternar rápidamente entre diferentes perfiles asociados al usuario (por ejemplo, personal o corporativo) desde el mismo navegador web.</li>
 </ul>`,
     tech: ['HTML5', 'CSS3', 'JavaScript', 'PHP'],
     url: 'https://regladorealestate.com/'
