@@ -176,7 +176,8 @@ const handleContactSubmit = async () => {
   formError.value = null;
 
   try {
-    const response = await fetch('http://localhost/portfolio/backend/api/contact.php', {
+    const apiUrl = import.meta.env.VITE_API_URL || '/portfolio/backend/api/contact.php';
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
