@@ -1,5 +1,5 @@
 <template>
-  <div class="content-overlay" :class="{ 'center-layout': activeSection === 'projects' }">
+  <div class="content-overlay" :class="{ 'center-layout': activeSection === 'projects', 'modal-open': showDetailModal }">
     <transition name="fade-slide" mode="out-in">
       <!-- SecciÃƒÂ³n HOME -->
       <div 
@@ -265,7 +265,9 @@ const handleTilt = (e) => {
   const tiltY = (x - xc) / (rect.width / 8);
   
   card.style.transition = 'none';
-  card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+  const isProjectItem = card.classList.contains('project-item');
+  const scale = isProjectItem ? '1' : '1.02';
+  card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(${scale}, ${scale}, ${scale})`;
   card.style.boxShadow = `${-tiltY * 3}px ${tiltX * 3}px 30px rgba(0,0,0,0.4), 0 20px 50px rgba(0,0,0,0.5)`;
 };
 
@@ -296,6 +298,10 @@ const resetTilt = (e) => {
 .content-overlay.center-layout {
   justify-content: center;
   padding-left: 0;
+}
+
+.content-overlay.modal-open {
+  z-index: 50; /* Coloca la tarjeta por encima del header (z-index: 10) y del footer (z-index: 5) */
 }
 
 .card {
@@ -1175,6 +1181,8 @@ h2 {
   align-items: center;
   justify-content: center;
   pointer-events: auto; /* Reactivar eventos táctiles y de ratón en el modal */
+  padding: 30px 0;
+  box-sizing: border-box;
 }
 
 .detail-modal-card {
@@ -1183,7 +1191,7 @@ h2 {
   padding: 40px;
   border-radius: 20px;
   position: relative;
-  max-height: 85vh;
+  max-height: 80vh;
   overflow-y: auto;
   color: var(--color-text);
   background: var(--color-detail-card-bg);
