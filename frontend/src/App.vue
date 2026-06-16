@@ -306,46 +306,73 @@ const resetContactForm = () => {
   --modal-error-border: rgba(157, 22, 53, 0.16);
 }
 
-/* Estilos globales de barras de desplazamiento (Scrollbars) */
+/* ==========================================
+   DISEÑO PREMIUM DE BARRAS DE DESPLAZAMIENTO (SCROLLBARS)
+   ========================================== */
+
+/* Habilitar el esquema de color correcto para que el navegador adapte los elementos nativos */
+html {
+  color-scheme: dark;
+}
+
+/* Ocultar los botones de flechas para un look minimalista y moderno */
+::-webkit-scrollbar-button {
+  display: none !important;
+}
+
+/* Scrollbar general para navegadores Webkit (Chrome, Safari, Edge, Opera, etc.) */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 8px !important;
+  height: 8px !important;
+  display: block !important;
 }
 
+/* El canal por donde se desliza la barra (Track) */
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
+  background: rgba(20, 16, 35, 0.4) !important; /* Fondo oscuro premium */
+  border-radius: 10px !important;
 }
 
-.theme-dark ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.01);
+.theme-light ::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.06) !important;
 }
 
+/* El indicador deslizable (Thumb) */
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  background: var(--color-accent, #5a3aa3) !important;
+  border-radius: 10px !important;
+  border: 2px solid transparent !important;
+  background-clip: padding-box !important;
   transition: background-color 0.3s ease;
 }
 
+/* En modo oscuro, usamos un degradado premium violeta/dorado */
 .theme-dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, var(--color-accent, #e5c3b2), #7b5bd8) !important;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
-  background-clip: padding-box;
+  background: #ffffff !important;
+  background-clip: padding-box !important;
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary, #0a0a0c) !important;
+  background-clip: padding-box !important;
 }
 
 /* Soporte para Firefox */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--color-accent, #5a3aa3) rgba(20, 16, 35, 0.4) !important;
+}
+
+.theme-light * {
+  scrollbar-color: var(--color-accent, #5a3aa3) rgba(0, 0, 0, 0.06) !important;
 }
 
 .theme-dark * {
-  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  scrollbar-color: var(--color-accent, #e5c3b2) rgba(20, 16, 35, 0.4) !important;
 }
 
 body, html {
