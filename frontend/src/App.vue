@@ -306,6 +306,48 @@ const resetContactForm = () => {
   --modal-error-border: rgba(157, 22, 53, 0.16);
 }
 
+/* Estilos globales de barras de desplazamiento (Scrollbars) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.theme-dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  transition: background-color 0.3s ease;
+}
+
+.theme-dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+  background-clip: padding-box;
+}
+
+/* Soporte para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.theme-dark * {
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+
 body, html {
   margin: 0;
   padding: 0;
@@ -449,17 +491,7 @@ body, html {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
 }
 
-.modal-card::-webkit-scrollbar {
-  width: 5px;
-}
-.modal-card::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.01);
-  border-radius: 10px;
-}
-.modal-card::-webkit-scrollbar-thumb {
-  background: var(--color-glass-border);
-  border-radius: 10px;
-}
+
 
 .modal-close-btn {
   position: absolute;

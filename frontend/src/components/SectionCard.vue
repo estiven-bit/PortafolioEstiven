@@ -319,22 +319,7 @@ const resetTilt = (e) => {
   transition: color 0.8s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Scrollbar personalizado para la tarjeta en general */
-.card::-webkit-scrollbar {
-  width: 6px;
-}
-.card::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.01);
-  border-radius: 10px;
-}
-.card::-webkit-scrollbar-thumb {
-  background: var(--color-glass-border);
-  border-radius: 10px;
-  transition: background-color 0.3s ease;
-}
-.card::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
-}
+
 
 /* Efecto Glassmorphism */
 .glassmorphic {
@@ -581,17 +566,7 @@ h2 {
   padding-right: 5px;
 }
 
-/* Personalizar barra de scroll de la tarjeta */
-.projects-grid::-webkit-scrollbar {
-  width: 4px;
-}
-.projects-grid::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.03);
-}
-.projects-grid::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 2px;
-}
+
 
 .glassmorphic-sub {
   position: relative;
