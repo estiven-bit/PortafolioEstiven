@@ -209,7 +209,7 @@ const handleContactSubmit = async () => {
     if (isLocal) {
       formError.value = 'No se pudo conectar con el servidor backend PHP. Verifica que XAMPP (Apache) esté encendido.';
     } else {
-      formError.value = 'No se pudo conectar con el servidor de correos. Por favor, inténtalo de nuevo más tarde o envíame un correo directamente a davila_v_23@hotmail.com.';
+      formError.value = 'No se pudo conectar con el servidor de correos. Por favor, inténtalo de nuevo más tarde o envíame un correo directamente a davila.va.23@gmail.com.';
     }
   } finally {
     formSubmitting.value = false;

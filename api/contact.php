@@ -126,15 +126,21 @@ try {
 
     $mailer->send();
 
-    $logDir = __DIR__ . '/../backend/logs';
-    if (!is_dir($logDir)) {
-        mkdir($logDir, 0777, true);
-    }
-
-    $logFile = $logDir . '/mensajes_contacto.log';
     $timestamp = date("Y-m-d H:i:s");
     $logEntry = "[$timestamp] Nombre: $nombre | Email: $email | Asunto: $asunto | Mensaje: $mensaje\n";
-    file_put_contents($logFile, $logEntry, FILE_APPEND);
+
+    if (getenv('VERCEL')) {
+        // En Vercel, registramos en la consola de logs (stderr) para evitar errores de sistema de archivos de solo lectura
+        error_log($logEntry);
+    } else {
+        // En local (XAMPP), guardamos en el archivo mensajes_contacto.log
+        $logDir = __DIR__ . '/../backend/logs';
+        if (!is_dir($logDir)) {
+            @mkdir($logDir, 0777, true);
+        }
+        $logFile = $logDir . '/mensajes_contacto.log';
+        @file_put_contents($logFile, $logEntry, FILE_APPEND);
+    }
 
     http_response_code(200);
     echo json_encode([
