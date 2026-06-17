@@ -1,14 +1,27 @@
-# Logs
+# =========================================================================
+# ARCHIVOS IGNORADOS POR GIT (.gitignore)
+# =========================================================================
+# Este archivo define las reglas de exclusión para evitar subir archivos
+# temporales, de configuración local, dependencias de gran tamaño, y sobre todo,
+# claves privadas o variables de entorno que comprometan la seguridad.
+# =========================================================================
+
+# ── ARCHIVOS DE LOGS Y DEPURACIÓN ─────────────────────────────────────────
+# Evita subir archivos de registro o logs de errores locales del servidor PHP.
 logs
 *.log
 
-# Dependencies & Build outputs
+# ── CARPETAS DE DEPENDENCIAS Y COMPILACIONES ──────────────────────────────
+# 'node_modules/' contiene los paquetes de Node.js instalados localmente.
+# 'dist/' y 'frontend/dist/' contienen los archivos estáticos listos para
+# producción generados por Vite. No se suben porque se compilan en Vercel.
 node_modules/
 dist/
 frontend/dist/
 frontend/node_modules/
 
-# Environment files (must not be committed to Git)
+# ── ARCHIVOS DE VARIABLES DE ENTORNO (CRÍTICO) ────────────────────────────
+# Evita subir claves de acceso y contraseñas SMTP del backend o URLs de API locales.
 .env
 .env.local
 .env.development.local
@@ -17,7 +30,9 @@ frontend/node_modules/
 frontend/.env
 backend/.env
 
-# IDE & OS files
+# ── CONFIGURACIONES DE EDITORES DE CÓDIGO Y SISTEMA ──────────────────────
+# Excluye carpetas específicas de VS Code, IntelliJ, archivos de macOS (.DS_Store)
+# y archivos temporales de editores de texto.
 .vscode/
 .idea/
 .DS_Store

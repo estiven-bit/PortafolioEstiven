@@ -124,22 +124,35 @@
 </template>
 
 <script setup>
+/**
+ * Componente Principal de la Aplicación (App.vue)
+ * 
+ * Gestiona el estado global de la aplicación, incluyendo la navegación entre secciones,
+ * el tema (Modo Claro / Modo Oscuro) y la visibilidad del modal de contacto integrado.
+ * También controla el proceso de envío del formulario de contacto hacia el backend en PHP.
+ */
 import { ref, reactive } from 'vue';
-import WebGLCanvas from './components/WebGLCanvas.vue';
-import Navigation from './components/Navigation.vue';
-import SectionCard from './components/SectionCard.vue';
+import WebGLCanvas from './components/WebGLCanvas.vue'; // Canvas WebGL que renderiza el fondo 3D con shaders
+import Navigation from './components/Navigation.vue';     // Menú superior de navegación y controles de tema
+import SectionCard from './components/SectionCard.vue';   // Tarjeta central que contiene la información de cada sección
 
+// Sección actualmente activa ('home', 'about', 'projects', 'contact')
 const activeSection = ref('home');
+
+// Flag para bloquear interacciones del usuario durante las transiciones animadas entre secciones
 const isTransitioning = ref(false);
+
+// Estado del tema visual (true = Modo Oscuro / false = Modo Claro)
 const isDarkMode = ref(true);
 
-// Modal de Contacto Integrado
+// Estado de visibilidad y envío del Modal de Contacto
 const showContactModal = ref(false);
-const formSubmitting = ref(false);
-const formSubmitted = ref(false);
-const formError = ref(null);
-const formSuccessMessage = ref('');
+const formSubmitting = ref(false);     // true mientras el POST está en curso
+const formSubmitted = ref(false);      // true si el envío fue exitoso
+const formError = ref(null);            // Mensaje de error para mostrar en la interfaz
+const formSuccessMessage = ref('');    // Mensaje de éxito devuelto por el servidor
 
+// Datos reactivos vinculados con los campos del formulario de contacto
 const contactForm = reactive({
   nombre: '',
   email: '',
@@ -147,23 +160,41 @@ const contactForm = reactive({
   mensaje: ''
 });
 
+/**
+ * Controla el cambio de sección activa aplicando efectos visuales
+ * 
+ * @param {string} sectionKey - Clave identificadora de la sección destino
+ */
 const handleNavigation = (sectionKey) => {
-  if (isTransitioning.value || activeSection.value === sectionKey) return; // Evitar interrupciones durante la transición
+  // Evitar solapamiento si ya está en transición o si se pulsa sobre la sección actual
+  if (isTransitioning.value || activeSection.value === sectionKey) return;
+  
   isTransitioning.value = true;
   activeSection.value = sectionKey;
+  
+  // Liberar el bloqueo de transición tras la finalización de las animaciones CSS (350ms)
   setTimeout(() => {
     isTransitioning.value = false;
-  }, 350); // 350ms para una transición rápida y fluida
+  }, 350);
 };
 
+/**
+ * Alterna el tema de la aplicación entre Modo Oscuro y Modo Claro
+ */
 const toggleTheme = () => {
   isDarkMode.value = !isDarkMode.value;
 };
 
+/**
+ * Abre el modal del formulario de contacto
+ */
 const openContactModal = () => {
   showContactModal.value = true;
 };
 
+/**
+ * Cierra el modal de contacto limpiando datos si ya se había enviado con éxito
+ */
 const closeContactModal = () => {
   showContactModal.value = false;
   if (formSubmitted.value) {
@@ -171,12 +202,18 @@ const closeContactModal = () => {
   }
 };
 
+/**
+ * Gestiona el envío del formulario de contacto mediante petición AJAX (fetch POST)
+ */
 const handleContactSubmit = async () => {
   formSubmitting.value = true;
   formError.value = null;
 
   try {
+    // Determinar la URL del endpoint basándose en variables de entorno (Vite local vs producción)
     const apiUrl = import.meta.env.VITE_API_URL || '/portfolio/backend/api/contact.php';
+    
+    // Realizar la petición POST enviando los datos serializados en JSON
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -185,6 +222,7 @@ const handleContactSubmit = async () => {
       body: JSON.stringify(contactForm)
     });
 
+    // Validar si la respuesta del servidor es un formato JSON legible
     let result;
     try {
       result = await response.json();
@@ -192,23 +230,30 @@ const handleContactSubmit = async () => {
       throw new Error('La respuesta del servidor no es un JSON válido.');
     }
 
+    // Si el servidor responde correctamente (status 200 y success true)
     if (response.ok && result.success) {
       formSubmitted.value = true;
       formSuccessMessage.value = result.message;
-      // Limpiar campos
+      
+      // Limpiar los campos del formulario reactivo
       contactForm.nombre = '';
       contactForm.email = '';
       contactForm.asunto = '';
       contactForm.mensaje = '';
     } else {
+      // Mostrar el error devuelto por la lógica del backend
       formError.value = result.message || 'Ocurrió un error al enviar el formulario.';
     }
   } catch (error) {
     console.error('Error al enviar formulario:', error);
+    
+    // Si la conexión falla del todo (ej. error de red), mostramos mensajes contextuales
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     if (isLocal) {
+      // Mensaje de asistencia técnica para desarrollo local
       formError.value = 'No se pudo conectar con el servidor backend PHP. Verifica que XAMPP (Apache) esté encendido.';
     } else {
+      // Mensaje limpio y profesional para producción en Internet
       formError.value = 'No se pudo conectar con el servidor de correos. Por favor, inténtalo de nuevo más tarde o envíame un correo directamente a davila.va.23@gmail.com.';
     }
   } finally {
@@ -216,6 +261,9 @@ const handleContactSubmit = async () => {
   }
 };
 
+/**
+ * Restablece los estados del modal de contacto al estado inicial
+ */
 const resetContactForm = () => {
   formSubmitted.value = false;
   formError.value = null;
@@ -287,7 +335,7 @@ const resetContactForm = () => {
   --color-input-focus-bg: rgba(0, 0, 0, 0.04);
   --color-input-text: #000000;
   --modal-overlay-bg: radial-gradient(circle at top, rgba(255, 255, 255, 0.22), rgba(243, 244, 246, 0.72) 60%);
-  --modal-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(244, 240, 252, 0.56));
+  --modal-card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(244, 240, 252, 0.94));
   --modal-card-border: rgba(90, 58, 163, 0.12);
   --modal-card-text: #1f1b2e;
   --modal-label: #5a3aa3;

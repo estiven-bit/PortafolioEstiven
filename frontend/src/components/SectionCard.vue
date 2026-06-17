@@ -196,8 +196,17 @@
 </template>
 
 <script setup>
+/**
+ * Componente de Tarjetas de Sección (SectionCard.vue)
+ * 
+ * Este componente es el núcleo de visualización del portafolio.
+ * Renderiza dinámicamente las tarjetas de información para cada sección activa ('home', 'about', 'projects', 'contact').
+ * Además, contiene el catálogo interactivo de proyectos con su modal detallado de especificaciones,
+ * e implementa un efecto visual premium de inclinación 3D (Tilt) mediante JavaScript al pasar el ratón.
+ */
 import { ref } from 'vue';
 
+// Propiedades recibidas del componente padre (App.vue)
 const props = defineProps({
   activeSection: {
     type: String,
@@ -205,8 +214,10 @@ const props = defineProps({
   }
 });
 
+// Eventos que este componente puede emitir hacia el componente padre
 defineEmits(['navigate', 'open-contact-modal']);
 
+// Colección de proyectos exhibidos en el catálogo
 const projects = [
   {
     key: 'libreria-gabi',
@@ -239,38 +250,71 @@ const projects = [
   }
 ];
 
+// Estado reactivo del proyecto seleccionado en la vista detallada
 const selectedProject = ref(projects[0]);
+
+// Estado de la navegación secundaria (true = muestra el detalle de un proyecto en el panel principal / false = lista de proyectos)
 const showProjectDetail = ref(false);
+
+// Estado de apertura del modal de pantalla completa (Ver Más) para mostrar la documentación del proyecto
 const showDetailModal = ref(false);
 
+/**
+ * Selecciona un proyecto para enfocarlo en la vista de detalle secundario
+ * 
+ * @param {Object} project - Objeto de datos del proyecto seleccionado
+ */
 const selectProject = (project) => {
   selectedProject.value = project;
   showProjectDetail.value = true;
 };
 
-// Efecto interactivo 3D Tilt
+/**
+ * Genera el efecto interactivo 3D Tilt al mover el puntero sobre una tarjeta
+ * 
+ * Calcula dinámicamente la posición del puntero relativa al contenedor y aplica una rotación
+ * 3D en los ejes X e Y. Si el elemento es un botón de proyecto individual, aplica inclinación
+ * pero omite el escalado (agrandado) para respetar la estética compacta.
+ * 
+ * @param {MouseEvent} e - Evento de ratón originado al desplazarse
+ */
 const handleTilt = (e) => {
   const card = e.currentTarget;
   const rect = card.getBoundingClientRect();
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
   
+  // Registrar las coordenadas de entrada para el brillo reactivo (reflejo de luz en CSS)
   card.style.setProperty('--mouse-x', `${x}px`);
   card.style.setProperty('--mouse-y', `${y}px`);
   
+  // Calcular el centroide geométrico de la tarjeta
   const xc = rect.width / 2;
   const yc = rect.height / 2;
   
+  // Calcular los grados de rotación de manera proporcional a la distancia del puntero respecto al centro
   const tiltX = (yc - y) / (rect.height / 8);
   const tiltY = (x - xc) / (rect.width / 8);
   
+  // Desactivar transiciones temporales en JS para evitar lag en el repintado al mover el mouse
   card.style.transition = 'none';
+  
+  // Si el contenedor es una tarjeta de proyecto individual en la grilla, no lo agrandamos (scale = 1)
   const isProjectItem = card.classList.contains('project-item');
   const scale = isProjectItem ? '1' : '1.02';
+  
+  // Aplicar transformación 3D e intensificar la sombra paralela de forma direccional según la rotación
   card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(${scale}, ${scale}, ${scale})`;
   card.style.boxShadow = `${-tiltY * 3}px ${tiltX * 3}px 30px rgba(0,0,0,0.4), 0 20px 50px rgba(0,0,0,0.5)`;
 };
 
+/**
+ * Restablece la posición e inclinación de la tarjeta al retirar el puntero
+ * 
+ * Aplica una transición suave en CSS de retorno a la posición neutra (sin rotación)
+ * 
+ * @param {MouseEvent} e - Evento de ratón originado al salir del contenedor
+ */
 const resetTilt = (e) => {
   const card = e.currentTarget;
   card.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease';
